@@ -1,0 +1,14 @@
+{
+  "name": "vertx-chat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "jresendiz",
+  "license": "ISC",
+  "dependencies": {
+    "vertx3-eventbus-client": "^3.3.3"
+  }
+}
