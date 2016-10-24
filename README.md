@@ -109,4 +109,12 @@ class SimpleChat extends GroovyVerticle {
   }
 }
 ```
+
+* Run the example using the next command on your terminal.
+``` bash
+$ ./gradlew run
+```
+
+* Go to [http://localhost:8080/](http://localhost:8080/)
+
 ## 
