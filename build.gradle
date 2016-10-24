@@ -23,4 +23,8 @@ repositories {
 dependencies {
     // We use the latest groovy 2.x version for building this library
     compile 'org.codehaus.groovy:groovy-all:2.4.7'
+    // Vertx dependencies
+    compile "io.vertx:vertx-core:3.3.3"
+    compile "io.vertx:vertx-lang-groovy:3.3.3"
+    compile 'io.vertx:vertx-web:3.3.3'
 }
