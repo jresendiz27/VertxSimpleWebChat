@@ -34,7 +34,7 @@ def mainVerticle = "groovy:com.nearsoft.jresendiz.SimpleChat"
 run {
     args = [
             'run', mainVerticle,
-            "--redeploy=src/**/*.groovy",
+            "--redeploy=src/**/*.*",
             "--launcher-class=$mainClassName",
             "--on-redeploy=./gradlew classes"
     ]
