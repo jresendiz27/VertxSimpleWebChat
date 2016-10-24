@@ -6,7 +6,6 @@
     <script src="//cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-    <script src="node_modules/vertx3-eventbus-client/vertx-eventbus.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-default">
@@ -23,9 +22,14 @@
                         <input type="text" id="content" class="form-control" placeholder="What do you wanna say?">
                     </div>
                     <button id="send" class="btn btn-default">Send</button>
+                    <button id="clear" class="btn btn-danger">Clear</button>
                 </form>
                 <ul class="nav navbar-nav navbar-right">
-                    Current Online
+                    Number of messages:
+                    <p id="numberOfMessages">0</p>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    Current online:
                     <p id="currentOnline">0</p>
                 </ul>
             </div>
@@ -37,9 +41,53 @@
                 <strong>Current live...</strong>
             </div>
             <div id="wall" class="col-md-6 col-md-offset-3">
-                something
+
             </div>
         </div>
     </div>
+    <script src="node_modules/vertx3-eventbus-client/vertx-eventbus.js"></script>
+    <script>
+        var eventBus = new EventBus("http://localhost:8080/chat");
+        eventBus.onopen = function () {
+            eventBus.registerHandler("numberOfMessages", function (err, message) {
+                $("#numberOfMessages").html(message.body.counter);
+            });
+            eventBus.registerHandler("newMessage", function (err, message) {
+                var content = "<div class='row'>" +
+                        "<div class=\"btn-group btn-group-xs\" role=\"group\" aria-label=\"...\" style=\"width:100% !important;\">" +
+                        "<button type=\"button\" class=\"btn btn-default\" style=\"width:20% !important;\">" + message.body.time + "</button>" +
+                        "<button type=\"button\" class=\"btn btn-default\" style=\"width:20% !important;\">" + message.body.username + "</button>" +
+                        "<button type=\"button\" class=\"btn btn-default\" style=\"width:60% !important;\">" + message.body.content + "</button>" +
+                        "</div>" +
+                        "</div>";
+                $("#wall").append(content);
+            });
+            eventBus.registerHandler("online", function (err, message) {
+               $("#currentOnline").html(message.body.online);
+            });
+        };
+        $("#clear").on("click", function (event) {
+            event.preventDefault();
+            $("#wall").html("");
+        });
+        $("#send").on("keyup", function (event) {
+            if (event.keyCode == 13 || event.which == 13) {
+                send()
+            }
+        });
+        $("#send").on("click", function (event) {
+            event.preventDefault();
+            send();
+        });
+        function send() {
+            var currentMessage = {};
+            var now = new Date();
+            currentMessage.username = $("#username").val() || "anonymous";
+            currentMessage.content = $("#content").val() || " -- -- -- -- -- --";
+            currentMessage.time = now.getUTCDate() + "/" + (now.getUTCMonth() + 1) + "/" + now.getFullYear() + " " + now.getHours() + ":" + now.getMinutes();
+            eventBus.send("sendMessage", currentMessage);
+            $('#content').val("");
+        }
+    </script>
 </body>
 </html>
