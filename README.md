@@ -12,16 +12,26 @@
 
 ------
 
-# Instructions
+# <a name='index'></a> Index
 
-## Step 0:
+* [Setting all the environment and Hello World](#link-1)
+* [Working with npm and static files](#link-2)
+* [Having fun with the event bus](#link-3)
+
+
+
+------
+
+### <a name="link-1"></a> Setting all the environment and Hello World 
+###### <sub>[Index](#index)</sub>
+------
+
 
 * Download or clone the [repository](https://github.com/jresendiz27/VertxSimpleWebChat.git).
 
 ```bash
 $ git clone https://github.com/jresendiz27/VertxSimpleWebChat.git
 ```
-## Step 1: Adding dependencies and setting all the environment
 
 * Make sure you have *JDK 8* installed.
 
@@ -50,7 +60,7 @@ def mainVerticle = "groovy:com.nearsoft.jresendiz.SimpleChat"
 run {
     args = [
             'run', mainVerticle,
-            "--redeploy=src/**/*.groovy",
+            "--redeploy=src/**/*.*",
             "--launcher-class=$mainClassName",
             "--on-redeploy=./gradlew classes"
     ]
@@ -117,4 +127,95 @@ $ ./gradlew run
 
 * Go to [http://localhost:8080/](http://localhost:8080/)
 
-## 
+------
+### <a name="link-2"></a> Working with npm and static files 
+###### <sub>[Index](#index)</sub>
+------
+
+* Create a _package.json_ file via *npm init*, execute this inside _webroot_ directory.
+
+```bash
+$ npm init
+```
+
+* Follow the instructions, the file should look like this one.
+
+``` json
+{
+  "name": "vertx-chat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "jresendiz",
+  "license": "ISC"
+}
+
+
+```
+* Install Vert.x dependency on the project, use the next command.
+
+```bash
+$ npm install --save vertx3-eventbus-client
+```
+
+> This will install all the required libraries for the project
+
+* Modify _index.html_, add bootstrap, jquery and vert.x libraries. Add the next code inside the ```<head></head>``` tag.
+
+```html
+<script src="//cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="node_modules/vertx3-eventbus-client/vertx-eventbus.js"></script>
+
+```
+* Also add the next content inside the ```<body>``` tag.
+
+```html
+<nav class="navbar navbar-default">
+        <div class="container-fluid">            
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
+                    <img alt="Brand" src="http://vertx.io/vertx2/logo-white-big.png" width="55px" height="20px">
+                </a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <form class="navbar-form navbar-nav" role="search">
+                    <div class="form-group">
+                        <input type="text" id="username" class="form-control" placeholder="Username">
+                        <input type="text" id="content" class="form-control" placeholder="What do you wanna say?">
+                    </div>
+                    <button id="send" class="btn btn-default">Send</button>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    Current Online
+                    <p id="currentOnline">0</p>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2 col-md-offset-5">
+                <strong>Current live...</strong>
+            </div>
+            <div id="wall" class="col-md-6 col-md-offset-3">
+                something
+            </div>
+        </div>
+    </div>
+```
+
+* All the changes now should appear at [http://localhost:8080](http://localhost:8080) 
+
+------
+### <a name="link-3"></a> Having fun with the event bus 
+###### <sub>[Index](#index)</sub>
+------
+* sample
+------
+
+
