@@ -7,14 +7,11 @@
  * user guide available at https://docs.gradle.org/2.14.1/userguide/tutorial_groovy_projects.html
  */
 
-// Apply the groovy plugin to add support for Groovy
 apply plugin: 'groovy'
 apply plugin: 'idea'
+apply plugin: "application"
 
-// In this section you declare where to find the dependencies of your project
 repositories {
-    // Use 'jcenter' for resolving your dependencies.
-    // You can declare any Maven/Ivy/file repository here.
     mavenCentral()
     jcenter()
 }
@@ -27,4 +24,18 @@ dependencies {
     compile "io.vertx:vertx-core:3.3.3"
     compile "io.vertx:vertx-lang-groovy:3.3.3"
     compile 'io.vertx:vertx-web:3.3.3'
+}
+
+// Vert.x core launcher, needed to execute the application
+mainClassName = "io.vertx.core.Launcher"
+// Main verticle to be deployed
+def mainVerticle = "groovy:com.nearsoft.jresendiz.SimpleChat"
+
+run {
+    args = [
+            'run', mainVerticle,
+            "--redeploy=src/**/*.groovy",
+            "--launcher-class=$mainClassName",
+            "--on-redeploy=./gradlew classes"
+    ]
 }
