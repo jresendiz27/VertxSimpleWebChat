@@ -2,9 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Hello World</title>
+    <title>Vertx Chat</title>
+    <script src="//cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="node_modules/vertx3-eventbus-client/vertx-eventbus.js"></script>
 </head>
 <body>
-    <h1>Hello World</h1>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
+                    <img alt="Brand" src="http://vertx.io/vertx2/logo-white-big.png" width="55px" height="20px">
+                </a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <form class="navbar-form navbar-nav" role="search">
+                    <div class="form-group">
+                        <input type="text" id="username" class="form-control" placeholder="Username">
+                        <input type="text" id="content" class="form-control" placeholder="What do you wanna say?">
+                    </div>
+                    <button id="send" class="btn btn-default">Send</button>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    Current Online
+                    <p id="currentOnline">0</p>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2 col-md-offset-5">
+                <strong>Current live...</strong>
+            </div>
+            <div id="wall" class="col-md-6 col-md-offset-3">
+                something
+            </div>
+        </div>
+    </div>
 </body>
 </html>
