@@ -29,6 +29,14 @@ dependencies {
     compile 'io.vertx:vertx-web:3.3.3'
 }
 
+node {
+    version = '6.4.0'
+    npmVersion = '3.10.3'
+    distBaseUrl = 'https://nodejs.org/dist'
+    download = true
+    workDir = file("${project.buildDir}/nodejs")
+    nodeModulesDir = file("${project.projectDir}")
+}
 // Vert.x core launcher, needed to execute the application
 mainClassName = "io.vertx.core.Launcher"
 // Main verticle to be deployed
