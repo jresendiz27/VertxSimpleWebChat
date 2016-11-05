@@ -43,6 +43,6 @@ run {
     ]
 }
 
-//npm_install {
-//    args = ['--prefix', 'src/main/resources/webroot']
-//}
+npm_install {
+    args = ['--prefix', 'src/main/resources/webroot']
+}
