@@ -7,9 +7,12 @@
  * user guide available at https://docs.gradle.org/2.14.1/userguide/tutorial_groovy_projects.html
  */
 
-apply plugin: 'groovy'
-apply plugin: 'idea'
-apply plugin: "application"
+plugins {
+    id 'groovy'
+    id 'idea'
+    id 'application'
+    id "com.moowork.node" version "0.13"
+}
 
 repositories {
     mavenCentral()
@@ -39,3 +42,7 @@ run {
             "--on-redeploy=./gradlew classes"
     ]
 }
+
+//npm_install {
+//    args = ['--prefix', 'src/main/resources/webroot']
+//}
