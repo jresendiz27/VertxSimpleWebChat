@@ -22,6 +22,7 @@ class SimpleChat extends GroovyVerticle {
     EventBus eventBus;
     AtomicInteger messageCounter = new AtomicInteger();
     AtomicInteger online = new AtomicInteger();
+    final Integer VERTX_PORT = (System.getenv("VERTX_PORT") ? System.getenv("VERTX_PORT") : "8080") as Integer
 
     public void start() {
         // This method is called whenever you create a verticle
@@ -41,12 +42,10 @@ class SimpleChat extends GroovyVerticle {
         ]
         SockJSHandler sockJSHandler = SockJSHandler.create(vertx).bridge(options, { eventHandler ->
             // We use the handler to know when a websocket was created or removed
-            if(eventHandler.type() == BridgeEventType.SOCKET_CREATED) {
-                println "Socket Created!!!"
+            if (eventHandler.type() == BridgeEventType.SOCKET_CREATED) {
                 online.incrementAndGet();
             }
-            if(eventHandler.type() == BridgeEventType.SOCKET_CLOSED) {
-                println "Socket Closed :( !!!"
+            if (eventHandler.type() == BridgeEventType.SOCKET_CLOSED) {
                 online.decrementAndGet();
             }
             // Keep moving to the next function
@@ -58,7 +57,7 @@ class SimpleChat extends GroovyVerticle {
         router.route("/chat/*").handler(sockJSHandler)
         router.route().handler(StaticHandler.create())
 
-        server.requestHandler(router.&accept).listen(443)
+        server.requestHandler(router.&accept).listen(VERTX_PORT, "0.0.0.0")
         // Register handlers to event bus
         eventBus.consumer("sendMessage").handler({ message ->
             eventBus.publish("newMessage", message.body());
