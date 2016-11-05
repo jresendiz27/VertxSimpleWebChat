@@ -22,7 +22,7 @@ class SimpleChat extends GroovyVerticle {
     EventBus eventBus;
     AtomicInteger messageCounter = new AtomicInteger();
     AtomicInteger online = new AtomicInteger();
-    final Integer VERTX_PORT = (System.getenv("VERTX_PORT") ? System.getenv("VERTX_PORT") : "8080") as Integer
+    final Integer VERTX_PORT = (System.getenv("PORT") ? System.getenv("PORT") : "8080") as Integer
 
     public void start() {
         // This method is called whenever you create a verticle
