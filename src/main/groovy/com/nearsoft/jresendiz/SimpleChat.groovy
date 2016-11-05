@@ -58,7 +58,7 @@ class SimpleChat extends GroovyVerticle {
         router.route("/chat/*").handler(sockJSHandler)
         router.route().handler(StaticHandler.create())
 
-        server.requestHandler(router.&accept).listen(8080)
+        server.requestHandler(router.&accept).listen(443)
         // Register handlers to event bus
         eventBus.consumer("sendMessage").handler({ message ->
             eventBus.publish("newMessage", message.body());
