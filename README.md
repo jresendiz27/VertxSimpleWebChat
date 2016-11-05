@@ -288,10 +288,13 @@ import java.util.concurrent.atomic.AtomicInteger
  
  * We have now to have fun with the event bus, also, we need to know how many are connected and the number of messages. Consider the next code, this should be pasted just bellow the ``` Router router; ``` declaration.
   
-``` java
+```groovy
+    HttpServer server;
+    Router router;
     EventBus eventBus;
     AtomicInteger messageCounter = new AtomicInteger();
     AtomicInteger online = new AtomicInteger();
+    final Integer VERTX_PORT = (System.getenv("PORT") ? System.getenv("PORT") : "8080") as Integer
 ```
  
 * The body of the ```start()``` method must be updated. First of all we have to access the eventbus and create the restrictions of it. This must be the new body.
@@ -314,24 +317,22 @@ import java.util.concurrent.atomic.AtomicInteger
  ]
  SockJSHandler sockJSHandler = SockJSHandler.create(vertx).bridge(options, { eventHandler ->
      // We use the handler to know when a websocket was created or removed
-     if(eventHandler.type() == BridgeEventType.SOCKET_CREATED) {
-         println "Socket Created!!!"
+     if (eventHandler.type() == BridgeEventType.SOCKET_CREATED) {
          online.incrementAndGet();
      }
-     if(eventHandler.type() == BridgeEventType.SOCKET_CLOSED) {
-         println "Socket Closed :( !!!"
+     if (eventHandler.type() == BridgeEventType.SOCKET_CLOSED) {
          online.decrementAndGet();
      }
-     // Keep moving to the next function 
+     // Keep moving to the next function
      eventHandler.complete(true);
  });
 
  router = Router.router(vertx)
  // Define a channel named chat, this is where the EventBus will live
- router.route("/chat/*").handler(sockJSHandler) 
+ router.route("/chat/*").handler(sockJSHandler)
  router.route().handler(StaticHandler.create())
 
- server.requestHandler(router.&accept).listen(8080)
+ server.requestHandler(router.&accept).listen(VERTX_PORT, "0.0.0.0")
  // Register handlers to event bus
  eventBus.consumer("sendMessage").handler({ message ->
      eventBus.publish("newMessage", message.body());
@@ -348,5 +349,7 @@ import java.util.concurrent.atomic.AtomicInteger
 * Now we can take a look to [http://localhost:8080](http://localhost:8080/) and see what's happening
 
 > If you can't see the page, try killing the ```./gradlew run``` and run the application again.
+
+> You can see that it uses System.getenv("PORT") and contains node plugin for gradle, this was deployed in heroku, https://vertx-simple-chat.herokuapp.com/ 
 
 ----------
