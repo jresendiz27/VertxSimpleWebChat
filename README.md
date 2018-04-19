@@ -55,7 +55,7 @@ compile 'io.vertx:vertx-web:3.3.3'
 // Vert.x core launcher, needed to execute the application
 mainClassName = "io.vertx.core.Launcher"
 // Main verticle to be deployed
-def mainVerticle = "groovy:com.nearsoft.jresendiz.SimpleChat"
+def mainVerticle = "groovy:SimpleChat"
 
 run {
     args = [
@@ -92,7 +92,7 @@ $ mkdir src/main/resources/webroot
 
 * Modify _SimpleChat.groovy_ file inside the _src/main/groovy/com/nearsoft/jresendiz/_ folder. Consider the next content.
 ```groovy
-package com.nearsoft.jresendiz
+package mx.jresendiz
 
 import io.vertx.groovy.ext.web.Router
 import io.vertx.groovy.ext.web.handler.StaticHandler

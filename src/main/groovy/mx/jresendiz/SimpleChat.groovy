@@ -1,4 +1,4 @@
-package com.nearsoft.jresendiz;
+package mx.jresendiz;
 
 import io.vertx.ext.web.handler.sockjs.BridgeEventType
 import io.vertx.groovy.core.eventbus.EventBus;

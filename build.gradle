@@ -40,7 +40,7 @@ node {
 // Vert.x core launcher, needed to execute the application
 mainClassName = "io.vertx.core.Launcher"
 // Main verticle to be deployed
-def mainVerticle = "groovy:com.nearsoft.jresendiz.SimpleChat"
+def mainVerticle = "groovy:mx.jresendiz.SimpleChat"
 
 run {
     args = [
